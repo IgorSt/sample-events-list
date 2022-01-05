@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.igorsantos.listiningevents.R
 import com.igorsantos.listiningevents.databinding.DialogCheckinBottomSheetBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,6 +39,9 @@ class DialogCheckinBottomSheet : BottomSheetDialogFragment() {
             val email = binding.txtEmail.text.toString()
 
             dialogCheckinViewModel.setup(args.data.id, name, email)
+
+            Toast.makeText(requireContext(), getString(R.string.congrats), Toast.LENGTH_SHORT).show()
+            dismiss()
         }
     }
 }

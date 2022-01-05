@@ -14,11 +14,6 @@
         android:theme="@style/Theme.ListiningEvents"
         android:usesCleartextTraffic="true" >
         <activity
-            android:name=".MainActivity"
-            android:exported="false"
-            android:label="@string/title_activity_main"
-            android:theme="@style/Theme.ListiningEvents.NoActionBar" />
-        <activity
             android:name=".view.MainActivity"
             android:exported="true" >
             <intent-filter>
