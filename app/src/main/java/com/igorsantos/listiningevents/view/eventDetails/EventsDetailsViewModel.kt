@@ -1,4 +1,4 @@
-package com.igorsantos.listiningevents.view.events
+package com.igorsantos.listiningevents.view.eventDetails
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,27 +7,22 @@ import com.igorsantos.listiningevents.arq.lifecycle.Event
 import com.igorsantos.listiningevents.domain.model.Events
 import com.igorsantos.listiningevents.domain.repository.EventsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
 
 @HiltViewModel
-class EventsViewModel @Inject constructor(
+class EventsDetailsViewModel @Inject constructor(
     private val repository: EventsRepository
 ) : ViewModel() {
 
-    private var _eventsList = MutableLiveData<List<Events>>()
-    val eventsList: LiveData<List<Events>> = _eventsList
+    private var _eventDetails = MutableLiveData<Events>()
+    val eventDetails: LiveData<Events> = _eventDetails
 
     private var _onEventsDetailsClicked = MutableLiveData<Event<Events>>()
     val onEventsDetailsClicked: LiveData<Event<Events>> = _onEventsDetailsClicked
 
-    suspend fun getEvents(): List<Events> {
-        val result = repository.getEvents()
-        _eventsList.value = result
+    suspend fun getEventDetails(id: String): Events {
+        val result = repository.getEventDetails(id)
+        _eventDetails.value = result
         return result
     }
 

@@ -3,11 +3,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/eventsFragment">
+    app:startDestination="@id/events">
 
     <fragment
-        android:id="@+id/eventsFragment"
+        android:id="@+id/events"
         android:name="com.igorsantos.listiningevents.view.events.EventsFragment"
         android:label="EventsFragment"
-        tools:layout="@layout/fragment_events"/>
+        tools:layout="@layout/fragment_events">
+        <action
+            android:id="@+id/action_eventsFragment_to_eventDetailsFragment"
+            app:destination="@id/event_details" />
+    </fragment>
+    <fragment
+        android:id="@+id/event_details"
+        android:name="com.igorsantos.listiningevents.view.eventDetails.EventDetailsFragment"
+        android:label="EventDetailsFragment"
+        tools:layout="@layout/fragment_events_details">
+        <argument
+            android:name="data"
+            app:argType="com.igorsantos.listiningevents.domain.model.Events" />
+        <action
+            android:id="@+id/action_eventDetailsFragment_to_dialogCheckinBottomSheet"
+            app:destination="@id/dialog_checkin" />
+    </fragment>
+    <dialog
+        android:id="@+id/dialog_checkin"
+        android:name="com.igorsantos.listiningevents.view.checkin.DialogCheckinBottomSheet"
+        android:label="DialogCheckinBottomSheet"
+        tools:layout="@layout/dialog_checkin_bottom_sheet">
+        <argument
+            android:name="data"
+            app:argType="com.igorsantos.listiningevents.domain.model.Events" />
+    </dialog>
 </navigation>

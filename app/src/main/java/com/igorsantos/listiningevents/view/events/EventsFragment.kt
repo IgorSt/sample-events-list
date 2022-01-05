@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.igorsantos.listiningevents.arq.lifecycle.EventObserver
 import com.igorsantos.listiningevents.databinding.FragmentEventsBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -20,13 +22,15 @@ class EventsFragment : Fragment() {
     val binding get() = _binding!!
 
     private val eventsViewModel: EventsViewModel by viewModels()
-    private val eventsAdapter = EventsAdapter()
+    private lateinit var eventsAdapter: EventsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        eventsAdapter = EventsAdapter(eventsViewModel)
+
         return FragmentEventsBinding.inflate(inflater, container, false).also {
             _binding = it
         }.root
@@ -45,6 +49,11 @@ class EventsFragment : Fragment() {
         eventsViewModel.eventsList.observe(viewLifecycleOwner) {
             eventsAdapter.submitList(it)
         }
+
+        eventsViewModel.onEventsDetailsClicked.observe(viewLifecycleOwner, EventObserver{
+            val action = EventsFragmentDirections.actionEventsFragmentToEventDetailsFragment(it)
+            findNavController().navigate(action)
+        })
     }
 
     override fun onDestroy() {
