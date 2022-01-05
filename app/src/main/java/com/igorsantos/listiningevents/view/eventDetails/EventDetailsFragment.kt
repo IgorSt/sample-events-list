@@ -1,5 +1,6 @@
 package com.igorsantos.listiningevents.view.eventDetails
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -38,7 +39,7 @@ class EventDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        GlobalScope.launch (Dispatchers.Main) { eventDetailsViewModel.getEventDetails(args.data.id) }
+        GlobalScope.launch(Dispatchers.Main) { eventDetailsViewModel.getEventDetails(args.data.id) }
 
         binding.data = args.data
 
@@ -49,10 +50,13 @@ class EventDetailsFragment : Fragment() {
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.share -> {
-
+                        share()
                     }
                     R.id.checkin -> {
-                        val action = EventDetailsFragmentDirections.actionEventDetailsFragmentToDialogCheckinBottomSheet(args.data)
+                        val action =
+                            EventDetailsFragmentDirections.actionEventDetailsFragmentToDialogCheckinBottomSheet(
+                                args.data
+                            )
                         findNavController().navigate(action)
 
                     }
@@ -70,6 +74,17 @@ class EventDetailsFragment : Fragment() {
                     .into(binding.banner)
             }
         }
+    }
+
+    fun share() {
+        val send: Intent = Intent().apply {
+            val text = eventDetailsViewModel.setDetails()
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, text)
+            type = "text/plain"
+        }
+        val shareIntent = Intent.createChooser(send, null)
+        startActivity(shareIntent)
     }
 
     override fun onDestroy() {

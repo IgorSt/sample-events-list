@@ -7,6 +7,10 @@ import com.igorsantos.listiningevents.arq.lifecycle.Event
 import com.igorsantos.listiningevents.domain.model.Events
 import com.igorsantos.listiningevents.domain.repository.EventsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,5 +32,14 @@ class EventsDetailsViewModel @Inject constructor(
 
     fun onEventsDetails(data: Events) {
         _onEventsDetailsClicked.value = Event(data)
+    }
+
+    fun setDetails(): String {
+        val data = _eventDetails.value ?: return ""
+        val date = LocalDateTime.ofInstant(Instant.ofEpochMilli(data.date), ZoneId.of("UTC"))
+        return "${data.title}\n\n" +
+            "${date.format(DateTimeFormatter.ofPattern("EEE, dd/MMMM/yyyy"))}\n\n" +
+            ("R$ " + data.price.toString().replace(".", ",")) +
+            "\n\n${data.description}\n\n"
     }
 }
