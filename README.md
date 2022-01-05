@@ -28,4 +28,4 @@
     tem como objetivo a separação de responsabilidades em camadas
     (model, view, data ...)
     
-    ![](giphy.gif)
+    <img src="giphy.gif" width="200" heidth="300">
