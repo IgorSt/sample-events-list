@@ -27,3 +27,5 @@
  8. **MVVW**: É um modelo de padrão de projeto recomendado pela Google, que
     tem como objetivo a separação de responsabilidades em camadas
     (model, view, data ...)
+    
+    ![](giphy.mp4)
