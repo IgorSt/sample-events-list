@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
-            name="data"
-            type="com.igorsantos.listiningevents.domain.model.Events" />
+            name="viewModel"
+            type="com.igorsantos.listiningevents.view.events.EventsViewModel" />
     </data>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/events_recycler"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:loading="@{viewModel.loading}"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/events_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:loading="@{!viewModel.loading}" />
+    </LinearLayout>
 
 </layout>

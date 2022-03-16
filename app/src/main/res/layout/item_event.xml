@@ -17,7 +17,6 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="8dp"
-        android:background="#F2F2F2"
         android:onClick="@{() -> viewModel.onEventsDetails(data)}"
         app:cardCornerRadius="10dp"
         app:cardElevation="0dp">
@@ -25,11 +24,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/loading_container"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:gravity="center_vertical"
+                app:loading="@{viewModel.loading}">
+
+                <ProgressBar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/image_presentation"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                tools:src="@tools:sample/avatars"/>
+                tools:src="@tools:sample/avatars"
+                app:loading="@{!viewModel.loading}"/>
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/title"

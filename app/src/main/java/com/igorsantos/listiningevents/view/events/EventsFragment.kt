@@ -1,5 +1,7 @@
 package com.igorsantos.listiningevents.view.events
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -29,31 +31,40 @@ class EventsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        lifecycle.addObserver(eventsViewModel)
         eventsAdapter = EventsAdapter(eventsViewModel)
 
         return FragmentEventsBinding.inflate(inflater, container, false).also {
             _binding = it
+            binding.viewModel = eventsViewModel
         }.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        GlobalScope.launch (Dispatchers.Main) { eventsViewModel.getEvents() }
-
         binding.eventsRecycler.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = eventsAdapter
         }
 
-        eventsViewModel.eventsList.observe(viewLifecycleOwner) {
-            eventsAdapter.submitList(it)
-        }
+        eventsViewModel.apply {
+            eventsList.observe(viewLifecycleOwner) {
+                eventsAdapter.submitList(it)
+            }
 
-        eventsViewModel.onEventsDetailsClicked.observe(viewLifecycleOwner, EventObserver{
-            val action = EventsFragmentDirections.actionEventsFragmentToEventDetailsFragment(it)
-            findNavController().navigate(action)
-        })
+            onEventsDetailsClicked.observe(viewLifecycleOwner, EventObserver{
+                val action = EventsFragmentDirections.actionEventsFragmentToEventDetailsFragment(it)
+                findNavController().navigate(action)
+            })
+
+            errorLoad.observe(viewLifecycleOwner) {
+                val build = AlertDialog.Builder(requireContext())
+                build.setMessage("Lamento, ocorreu um erro inesperado: $it")
+                    .setPositiveButton("Ok", DialogInterface.OnClickListener {_, _ ->
+                        requireActivity().onBackPressed() }).show()
+            }
+        }
     }
 
     override fun onDestroy() {

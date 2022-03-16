@@ -13,9 +13,6 @@ import com.bumptech.glide.Glide
 import com.igorsantos.listiningevents.R
 import com.igorsantos.listiningevents.databinding.FragmentEventsDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class EventDetailsFragment : Fragment() {
@@ -39,14 +36,12 @@ class EventDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        GlobalScope.launch(Dispatchers.Main) { eventDetailsViewModel.getEventDetails(args.data.id) }
+        eventDetailsViewModel.getEventDetails(args.data.id)
 
         binding.data = args.data
 
         binding.toolbar.apply {
-            setNavigationIcon(R.drawable.ic_arrow)
             setNavigationOnClickListener { requireActivity().onBackPressed() }
-            inflateMenu(R.menu.event_details_menu)
             setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.share -> {

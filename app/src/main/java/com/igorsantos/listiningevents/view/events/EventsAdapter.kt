@@ -1,7 +1,5 @@
 package com.igorsantos.listiningevents.view.events
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
