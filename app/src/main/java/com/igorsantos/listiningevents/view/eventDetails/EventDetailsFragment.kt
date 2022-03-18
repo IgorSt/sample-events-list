@@ -1,5 +1,7 @@
 package com.igorsantos.listiningevents.view.eventDetails
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -60,13 +62,27 @@ class EventDetailsFragment : Fragment() {
             }
         }
 
-        eventDetailsViewModel.eventDetails.observe(viewLifecycleOwner) {
-            binding.apply {
-                Glide.with(requireContext())
-                    .load(it.image)
-                    .centerCrop()
-                    .error(R.drawable.image_not_found)
-                    .into(binding.banner)
+        eventDetailsViewModel.apply {
+            eventDetails.observe(viewLifecycleOwner) {
+                binding.apply {
+                    Glide.with(requireContext())
+                        .load(it.image)
+                        .centerCrop()
+                        .error(R.drawable.image_not_found)
+                        .into(binding.banner)
+                }
+            }
+
+            errorLoad.observe(viewLifecycleOwner) {
+                val build = AlertDialog.Builder(requireContext())
+                build.setMessage("Lamento, ocorreu um erro inesperado: $it")
+                    .setPositiveButton("Ok", DialogInterface.OnClickListener { _, _ ->
+                        requireActivity().onBackPressed() }).show()
+            }
+
+            loading.observe(viewLifecycleOwner) {
+                binding.loadingContainer.visibility = if (it) View.VISIBLE else View.GONE
+                binding.banner.visibility = if (it) View.GONE else View.VISIBLE
             }
         }
     }

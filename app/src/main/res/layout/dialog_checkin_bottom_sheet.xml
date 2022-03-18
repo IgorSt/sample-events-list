@@ -7,7 +7,20 @@
             type="com.igorsantos.listiningevents.view.checkin.DialogCheckinViewModel" />
     </data>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/content_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -22,6 +35,7 @@
                 android:id="@+id/txt_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
                 android:hint="@string/type_name_hint" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -35,6 +49,7 @@
                 android:id="@+id/txt_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
                 android:hint="@string/type_email_hint" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -49,6 +64,8 @@
             android:fontFamily="sans-serif-condensed"
             android:textSize="14sp"
             android:text="@string/finish"/>
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </LinearLayout>
+
+    </LinearLayout>
 
 </layout>

@@ -64,6 +64,11 @@ class EventsFragment : Fragment() {
                     .setPositiveButton("Ok", DialogInterface.OnClickListener {_, _ ->
                         requireActivity().onBackPressed() }).show()
             }
+
+            loading.observe(viewLifecycleOwner) {
+                binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
+                binding.eventsRecycler.visibility = if (it) View.GONE else View.VISIBLE
+            }
         }
     }
 

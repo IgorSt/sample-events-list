@@ -10,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.igorsantos.listiningevents.R
 import com.igorsantos.listiningevents.databinding.DialogCheckinBottomSheetBinding
+import com.igorsantos.listiningevents.rules.emailValidator
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,13 +36,38 @@ class DialogCheckinBottomSheet : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnFinish.setOnClickListener {
-            val name = binding.txtName.text.toString()
-            val email = binding.txtEmail.text.toString()
 
-            dialogCheckinViewModel.setup(args.data.id, name, email)
+            val isValidForm = form()
 
-            Toast.makeText(requireContext(), getString(R.string.congrats), Toast.LENGTH_SHORT).show()
-            dismiss()
+            if (isValidForm) {
+                val name = binding.txtName.text.toString()
+                val email = binding.txtEmail.text.toString()
+
+                dialogCheckinViewModel.apply {
+                    setup(args.data.id, name, email)
+
+                    loading.observe(viewLifecycleOwner) {
+                        binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
+                        binding.contentContainer.visibility = if (it) View.GONE else View.VISIBLE
+                    }
+                }
+
+                Toast.makeText(requireContext(), getString(R.string.congrats), Toast.LENGTH_SHORT)
+                    .show()
+                dismiss()
+            }
         }
+    }
+
+    private fun form(): Boolean {
+        if (binding.txtName.text.isNullOrEmpty()) {
+            binding.txtName.setError(getString(R.string.name_cannot_empty))
+            return false
+        }
+        if (!binding.txtEmail.text.toString().trim().emailValidator()) {
+            binding.txtEmail.setError(getString(R.string.invalid_email))
+            return false
+        }
+        return true
     }
 }

@@ -12,4 +12,7 @@
     <string name="congrats">Parabéns checkin realizado com sucesso!</string>
 
     <string name="details_event">Detalhes do evento</string>
+
+    <string name="name_cannot_empty">O nome não pode ser vazio</string>
+    <string name="invalid_email">Email inválido</string>
 </resources>

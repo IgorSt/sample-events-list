@@ -1,5 +1,7 @@
 package com.igorsantos.listiningevents.view.checkin
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.igorsantos.listiningevents.domain.repository.EventsRepository
@@ -13,6 +15,9 @@ class DialogCheckinViewModel @Inject constructor(
     private val repository: EventsRepository
 ): ViewModel() {
 
+    private var _loading = MutableLiveData(false)
+    val loading: LiveData<Boolean> = _loading
+
     lateinit var _eventId: String
     lateinit var _name: String
     lateinit var _email: String
@@ -25,8 +30,9 @@ class DialogCheckinViewModel @Inject constructor(
             val email = _email
             try {
                 repository.setCheckin(id, name, email)
+                _loading.value = true
             } catch (e: Exception) {
-
+                _loading.value = false
             }
         }
     }

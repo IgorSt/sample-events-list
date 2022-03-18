@@ -7,6 +7,7 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 @BindingAdapter("formatCurrency")
 fun AppCompatTextView.formatCurrency(value: Double) {
@@ -19,7 +20,7 @@ fun AppCompatTextView.formatCurrency(value: Double) {
 fun AppCompatTextView.formatDate(value: Long) {
     val date = LocalDateTime.ofInstant(Instant.ofEpochMilli(value), ZoneId.of("UTC"))
 
-    text = (date.format(DateTimeFormatter.ofPattern("EEE, dd/MMMM/yyyy")))
+    text = (date.format(DateTimeFormatter.ofPattern("EEE dd/MMMM/yyyy", Locale("pt","BR"))))
 }
 
 @BindingAdapter("loading")
