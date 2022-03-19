@@ -32,6 +32,8 @@ class EventDetailsFragment : Fragment() {
     ): View {
         return FragmentEventsDetailsBinding.inflate(inflater, container, false).also {
             _binding = it
+            binding.viewModel = eventDetailsViewModel
+            binding.lifecycleOwner = viewLifecycleOwner
         }.root
     }
 
@@ -78,11 +80,6 @@ class EventDetailsFragment : Fragment() {
                 build.setMessage("Lamento, ocorreu um erro inesperado: $it")
                     .setPositiveButton("Ok", DialogInterface.OnClickListener { _, _ ->
                         requireActivity().onBackPressed() }).show()
-            }
-
-            loading.observe(viewLifecycleOwner) {
-                binding.loadingContainer.visibility = if (it) View.VISIBLE else View.GONE
-                binding.banner.visibility = if (it) View.GONE else View.VISIBLE
             }
         }
     }

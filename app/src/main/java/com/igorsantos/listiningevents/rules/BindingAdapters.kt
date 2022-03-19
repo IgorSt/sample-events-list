@@ -23,7 +23,7 @@ fun AppCompatTextView.formatDate(value: Long) {
     text = (date.format(DateTimeFormatter.ofPattern("EEE dd/MMMM/yyyy", Locale("pt","BR"))))
 }
 
-@BindingAdapter("loading")
+@BindingAdapter("app:loading")
 fun loading(view: View, value: Boolean) {
-    view.visibility = if (value) { View.VISIBLE } else { View.GONE }
+    view.visibility = if (value) View.VISIBLE else View.GONE
 }

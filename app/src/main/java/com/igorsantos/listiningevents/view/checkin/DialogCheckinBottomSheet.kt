@@ -29,6 +29,7 @@ class DialogCheckinBottomSheet : BottomSheetDialogFragment() {
         return DialogCheckinBottomSheetBinding.inflate(inflater, container, false).also {
             binding = it
             binding.viewModel = dialogCheckinViewModel
+            binding.lifecycleOwner = viewLifecycleOwner
         }.root
     }
 
@@ -45,11 +46,6 @@ class DialogCheckinBottomSheet : BottomSheetDialogFragment() {
 
                 dialogCheckinViewModel.apply {
                     setup(args.data.id, name, email)
-
-                    loading.observe(viewLifecycleOwner) {
-                        binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
-                        binding.contentContainer.visibility = if (it) View.GONE else View.VISIBLE
-                    }
                 }
 
                 Toast.makeText(requireContext(), getString(R.string.congrats), Toast.LENGTH_SHORT)

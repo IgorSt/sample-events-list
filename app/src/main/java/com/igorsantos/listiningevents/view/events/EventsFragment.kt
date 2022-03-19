@@ -37,6 +37,7 @@ class EventsFragment : Fragment() {
         return FragmentEventsBinding.inflate(inflater, container, false).also {
             _binding = it
             binding.viewModel = eventsViewModel
+            binding.lifecycleOwner = viewLifecycleOwner
         }.root
     }
 
@@ -61,13 +62,9 @@ class EventsFragment : Fragment() {
             errorLoad.observe(viewLifecycleOwner) {
                 val build = AlertDialog.Builder(requireContext())
                 build.setMessage("Lamento, ocorreu um erro inesperado: $it")
-                    .setPositiveButton("Ok", DialogInterface.OnClickListener {_, _ ->
-                        requireActivity().onBackPressed() }).show()
-            }
-
-            loading.observe(viewLifecycleOwner) {
-                binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
-                binding.eventsRecycler.visibility = if (it) View.GONE else View.VISIBLE
+                    .setPositiveButton("Ok", DialogInterface.OnClickListener { _, _ ->
+                        requireActivity().onBackPressed()
+                    }).show()
             }
         }
     }
